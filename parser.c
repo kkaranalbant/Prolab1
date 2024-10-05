@@ -35,23 +35,28 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
             char* key = getKey(buffer);
             if (key == NULL) continue;
             char* value = getValue(buffer);
-            if (key == "insan_imparatorlugu" || key == "ork_legi") {
+
+            if (strcmp(key, "insan_imparatorlugu") == 0 || strcmp(key, "ork_legi") == 0) {
                 kind = key;
-            } else if (key == "piyadeler" || key == "okcular" || key == "suvariler" || key == "kusatma_makineleri" || key == "ork_dovusculeri" || key == "mizrakcilar" || key == "varg_binicileri" || key == "troller") {
+            } else if (strcmp(key, "piyadeler") == 0 || strcmp(key, "okcular") == 0 ||
+                    strcmp(key, "suvariler") == 0 || strcmp(key, "kusatma_makineleri") == 0 ||
+                    strcmp(key, "ork_dovusculeri") == 0 || strcmp(key, "mizrakcilar") == 0 ||
+                    strcmp(key, "varg_binicileri") == 0 || strcmp(key, "troller") == 0) {
                 name = key;
-            } else if (key == "saldiri") {
+            } else if (strcmp(key, "saldiri") == 0) {
                 attack = atoi(value);
                 foundAttack = true;
-            } else if (key == "savunma") {
+            } else if (strcmp(key, "savunma") == 0) {
                 defence = atoi(value);
                 foundDefence = true;
-            } else if (key == "saglik") {
+            } else if (strcmp(key, "saglik") == 0) {
                 hp = atoi(value);
                 foundHp = true;
-            } else if (key == "kritik_sans") {
+            } else if (strcmp(key, "kritik_sans") == 0) {
                 criticalRate = atoi(value);
                 foundCriticalRate = true;
             }
+
             if (foundHp && foundDefence && foundCriticalRate && foundAttack) {
                 foundHp = false;
                 foundDefence = false;
@@ -59,7 +64,6 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                 foundAttack = false;
                 struct UnitType unitType;
                 unitType = createUnitType(kind, name, attack, defence, hp, criticalRate);
-                printf("%s\n%s\n%d\n%d\n%d\n%d\n\n\n", kind, name, attack, defence, hp, criticalRate);
             }
         }
     } else if (isResearch) {
@@ -73,22 +77,24 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
             char* key = getKey(buffer);
             if (key == NULL) continue;
             char* value = getValue(buffer);
-            printf("%s:%s\n", key, value);
-            if (key == "savunma_ustaligi" || key == "saldiri_gelistirmesi" || key == "elit_egitim" || key == "kusatma_ustaligi") {
+            
+            if (strcmp(key, "savunma_ustaligi") == 0 || strcmp(key, "saldiri_gelistirmesi") == 0 ||
+                    strcmp(key, "elit_egitim") == 0 || strcmp(key, "kusatma_ustaligi") == 0) {
                 name = key;
-            } else if (key == "seviye_1") {
+            } else if (strcmp(key, "seviye_1") == 0) {
                 level = 1;
-            } else if (key == "seviye_2") {
+            } else if (strcmp(key, "seviye_2") == 0) {
                 level = 2;
-            } else if (key == "seviye_3") {
+            } else if (strcmp(key, "seviye_3") == 0) {
                 level = 3;
-            } else if (key == "deger") {
+            } else if (strcmp(key, "deger") == 0) {
                 bonusValue = atoi(value);
                 foundValue = true;
-            } else if (key = "aciklama") {
+            } else if (strcmp(key, "aciklama") == 0) {
                 explanation = value;
                 foundExplanation = true;
             }
+
             if (foundValue && foundExplanation) {
                 foundValue = false;
                 foundExplanation = false;
@@ -113,23 +119,28 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
             if (key == NULL) continue;
             char* value = getValue(buffer);
             printf("%s:%s\n", key, value);
-            if (key == "ork_legi" || key == "insan_imparatorlugu") {
+
+            if (strcmp(key, "ork_legi") == 0 || strcmp(key, "insan_imparatorlugu") == 0) {
                 kind = key;
-            } else if (key == "Alparslan" || key == "Yavuz_Sultan_Selim" || key == "Fatih_Sultan_Mehmet" || key == "Tugrul_Bey" || key == "Goruk_Vahsi" || key == "Thruk_Kemikkiran" || key == "Vrog_Kafakiran" || key == "Ugar_Zalim") {
+            } else if (strcmp(key, "Alparslan") == 0 || strcmp(key, "Yavuz_Sultan_Selim") == 0 ||
+                    strcmp(key, "Fatih_Sultan_Mehmet") == 0 || strcmp(key, "Tugrul_Bey") == 0 ||
+                    strcmp(key, "Goruk_Vahsi") == 0 || strcmp(key, "Thruk_Kemikkiran") == 0 ||
+                    strcmp(key, "Vrog_Kafakiran") == 0 || strcmp(key, "Ugar_Zalim") == 0) {
                 name = key;
-            } else if (key == "bonus_turu") {
+            } else if (strcmp(key, "bonus_turu") == 0) {
                 bonusKind = value;
                 foundBonusKind = true;
-            } else if (key == "etkiledigi_birim") {
+            } else if (strcmp(key, "etkiledigi_birim") == 0) {
                 affectedUnitName = value;
                 foundAffectedUnitName = true;
-            } else if (key == "bonus_degeri") {
+            } else if (strcmp(key, "bonus_degeri") == 0) {
                 bonusAmount = atoi(value);
                 foundBonusAmount = true;
-            } else if (key == "aciklama") {
+            } else if (strcmp(key, "aciklama") == 0) {
                 explanation = value;
                 foundExplanation = true;
             }
+
             if (foundAffectedUnitName && foundBonusAmount && foundBonusKind && foundExplanation) {
                 foundAffectedUnitName = false;
                 foundBonusAmount = false;
@@ -148,26 +159,33 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
         bool foundBonusAmount = false;
         bool foundAffectionType = false;
         bool foundExplanation = false;
+
         while (fgets(buffer, sizeof (buffer), dosya)) {
             char* key = getKey(buffer);
             if (key == NULL) continue;
             char* value = getValue(buffer);
             printf("%s:%s\n", key, value);
-            if (key == "ork_legi" || key == "insan_imparatorlugu") {
+
+            if (strcmp(key, "ork_legi") == 0 || strcmp(key, "insan_imparatorlugu") == 0) {
                 kind = key;
-            } else if (key == "Ejderha" || key == "Agri_Dagi_Devleri" || key == "Tepegoz" || key == "Karakurt" || key == "Samur" || key == "Kara_Troll" || key == "Golge_Kurtlari" || key == "Camur_Devleri" || key == "Ates_Iblisi" || key == "Buz_Devleri") {
+            } else if (strcmp(key, "Ejderha") == 0 || strcmp(key, "Agri_Dagi_Devleri") == 0 ||
+                    strcmp(key, "Tepegoz") == 0 || strcmp(key, "Karakurt") == 0 ||
+                    strcmp(key, "Samur") == 0 || strcmp(key, "Kara_Troll") == 0 ||
+                    strcmp(key, "Golge_Kurtlari") == 0 || strcmp(key, "Camur_Devleri") == 0 ||
+                    strcmp(key, "Ates_Iblisi") == 0 || strcmp(key, "Buz_Devleri") == 0) {
                 name = key;
-            } else if (key == "etki_degeri") {
+            } else if (strcmp(key, "etki_degeri") == 0) {
                 bonusAmount = atoi(value);
                 foundBonusAmount = true;
-            } else if (key == "etki_turu") {
+            } else if (strcmp(key, "etki_turu") == 0) {
                 affectionType = value;
                 foundAffectionType = true;
-            } else if (key == "aciklama") {
+            } else if (strcmp(key, "aciklama") == 0) {
                 explanation = value;
                 foundExplanation = true;
             }
-            if (foundAffectionType && foundAffectionType && foundExplanation) {
+
+            if (foundAffectionType && foundBonusAmount && foundExplanation) {
                 foundAffectionType = false;
                 foundBonusAmount = false;
                 foundExplanation = false;
@@ -175,6 +193,7 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                 creature = createCreature(kind, name, bonusAmount, affectionType, explanation);
             }
         }
+
     }
 
     fclose(dosya);

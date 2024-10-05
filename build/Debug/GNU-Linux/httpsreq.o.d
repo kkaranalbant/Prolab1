@@ -1,1 +1,2 @@
-build/Debug/GNU-Linux/httpsreq.o: httpsreq.c
+build/Debug/GNU-Linux/httpsreq.o: httpsreq.c httpsreq.h
+httpsreq.h:
