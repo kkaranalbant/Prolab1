@@ -12,7 +12,7 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
 void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bool isScenerio, bool isCreature) {
 
     FILE *dosya;
-    char buffer[2500]; 
+    char buffer[2500];
 
     dosya = fopen(fileName, "r");
 
@@ -37,10 +37,8 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
             char* value = getValue(buffer);
             if (key == "insan_imparatorlugu" || key == "ork_legi") {
                 kind = key;
-                foundKind = true;
             } else if (key == "piyadeler" || key == "okcular" || key == "suvariler" || key == "kusatma_makineleri" || key == "ork_dovusculeri" || key == "mizrakcilar" || key == "varg_binicileri" || key == "troller") {
                 name = key;
-                foundName = true;
             } else if (key == "saldiri") {
                 attack = atoi(value);
                 foundAttack = true;
@@ -59,7 +57,8 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                 foundDefence = false;
                 foundCriticalRate = false;
                 foundAttack = false;
-                createUnitType(kind, name, attack, defence, hp, criticalRate);
+                struct UnitType unitType;
+                unitType = createUnitType(kind, name, attack, defence, hp, criticalRate);
             }
         }
     } else if (isResearch) {
@@ -90,7 +89,8 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
             if (foundValue && foundExplanation) {
                 foundValue = false;
                 foundExplanation = false;
-                createResearch(name, level, bonusValue, explanation);
+                struct Research research;
+                research = createResearch(name, level, bonusValue, explanation);
             }
         }
 
@@ -130,7 +130,8 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                 foundBonusAmount = false;
                 foundBonusKind = false;
                 foundExplanation = false;
-                createHero(kind, name, bonusAmount, affectedUnitName, explanation, bonusKind);
+                struct Hero hero;
+                hero = createHero(kind, name, bonusAmount, affectedUnitName, explanation, bonusKind);
             }
         }
     } else if (isCreature) {
@@ -139,35 +140,32 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
         int bonusAmount;
         char* affectionType;
         char* explanation;
-        bool foundBonusAmount = false ;
-        bool foundAffectionType = false ;
-        bool foundExplanation = false ;
+        bool foundBonusAmount = false;
+        bool foundAffectionType = false;
+        bool foundExplanation = false;
         while (fgets(buffer, sizeof (buffer), dosya)) {
             char* key = getKey(buffer);
             char* value = getValue(buffer);
             if (key == "ork_legi" || key == "insan_imparatorlugu") {
                 kind = key;
-            }
-            else if (key == "Ejderha" || key == "Agri_Dagi_Devleri" || key == "Tepegoz" || key == "Karakurt" key == "Samur" || key == "Kara_Troll" || key == "Golge_Kurtlari" || key == "Camur_Devleri" || key == "Ates_Iblisi" || key == "Buz_Devleri") {
-                name = key ;
-            }
-            else if (key == "etki_degeri") {
-                bonusAmount = atoi(value) ;
-                foundBonusAmount = true ;
-            }
-            else if (key == "etki_turu") {
-                affectionType = value ;
-                foundAffectionType = true ;
-            }
-            else if (key == "aciklama") {
-                explanation = value ;
-                foundExplanation = true ;
+            } else if (key == "Ejderha" || key == "Agri_Dagi_Devleri" || key == "Tepegoz" || key == "Karakurt" key == "Samur" || key == "Kara_Troll" || key == "Golge_Kurtlari" || key == "Camur_Devleri" || key == "Ates_Iblisi" || key == "Buz_Devleri") {
+                name = key;
+            } else if (key == "etki_degeri") {
+                bonusAmount = atoi(value);
+                foundBonusAmount = true;
+            } else if (key == "etki_turu") {
+                affectionType = value;
+                foundAffectionType = true;
+            } else if (key == "aciklama") {
+                explanation = value;
+                foundExplanation = true;
             }
             if (foundAffectionType && foundAffectionType && foundExplanation) {
-                foundAffectionType = false ;
-                foundBonusAmount = false ;
-                foundExplanation = false ;
-                createCreature(kind,name,bonusAmount,affectionType,explanation) ;
+                foundAffectionType = false;
+                foundBonusAmount = false;
+                foundExplanation = false;
+                struct Creature creature;
+                creature = createCreature(kind, name, bonusAmount, affectionType, explanation);
             }
         }
     }
@@ -207,9 +205,6 @@ char* getKey(char* row) {
 
 }
 
-/*
- Value sayi ise problemli olacak.
- */
 char* getValue(char* row) {
 
     char* result = NULL;
@@ -238,6 +233,19 @@ char* getValue(char* row) {
             result[counter] = row[i];
             counter++;
         }
+        result[counter] = '\0';
+    } else if (lastQuatationIndexAfterColon == -1 && firstQuatationIndexAfterColon == -1) {
+        int counter = 0;
+        for (int i = colonIndex + 1; row[i] != ' '; i++) {
+            counter++;
+        }
+        result = (char*) malloc((counter + 1) * sizeof (char));
+        int j = 0;
+        for (int i = colonIndex + 1; row[i] != ' '; i++) {
+            result[j] = row[i];
+            j++;
+        }
+        result[j] = '\0';
     }
     return result;
 }
