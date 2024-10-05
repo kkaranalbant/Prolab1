@@ -5,42 +5,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
-struct UnitType {
-    char* kind;
-    char* name;
-    int attack;
-    int defence;
-    int hp;
-    int criticalRate;
-};
-
-struct Research {
-    char* name;
-    int level;
-    int value;
-    char* explanation;
-};
-
-struct Hero {
-    char* kind;
-    char* name;
-    char* bonusKind;
-    char* affectedUnitName;
-    int bonusAmount;
-    char* explanation;
-};
-
-struct Creature {
-    char* kind;
-    char* name;
-    int bonusAmount;
-    char* affectionType;
-    char* explanation;
-};
+#include "models.h"
 
 
-UnitType createUnitType (char* kind , char* name , int attack , int defence , int hp , int criticalRate) {
+struct UnitType createUnitType (char* kind , char* name , int attack , int defence , int hp , int criticalRate) {
     struct UnitType unitType ;
     unitType.kind = kind ;
     unitType.name = name ;
@@ -51,7 +19,7 @@ UnitType createUnitType (char* kind , char* name , int attack , int defence , in
     return unitType ;
 }
 
-Research createResearch (char* name , int level , int value  ,  char* explanation) {
+struct Research createResearch (char* name , int level , int value  ,  char* explanation) {
     struct Research research ;
     research.name = name ;
     research.level = level ;
@@ -60,7 +28,7 @@ Research createResearch (char* name , int level , int value  ,  char* explanatio
     return research ;
 }
 
-Hero createHero (char* kind , char* name , int bonusAmount , char* affectedUnitName , char* explanation , char* bonusKind) {
+struct Hero createHero (char* kind , char* name , int bonusAmount , char* affectedUnitName , char* explanation , char* bonusKind) {
     struct Hero hero ;
     hero.name = name ;
     hero.kind = kind ;
@@ -71,7 +39,7 @@ Hero createHero (char* kind , char* name , int bonusAmount , char* affectedUnitN
     return hero ;
 }
 
-Creature createCreature (char* kind , char* name , int bonus , char* affectionType , char* explanation) {
+struct Creature createCreature (char* kind , char* name , int bonus , char* affectionType , char* explanation) {
     struct Creature creature ;
     creature.kind = kind ;
     creature.name = name ;

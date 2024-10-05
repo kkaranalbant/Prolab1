@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "models.c"
-
-void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bool isScenerio, bool isCreature);
+#include "models.h"
+#include "parser.h"
 
 /*
  nesneler olusacak ancak uygulamada kullanilmasi icin bir veri yapisina kayit edilmeli
@@ -18,7 +17,7 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
 
     if (dosya == NULL) {
         printf("Dosya açılamadı.\n");
-        return 1;
+        return;
     }
 
     if (isUnitType) {
@@ -34,6 +33,7 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
         bool foundCriticalRate = false;
         while (fgets(buffer, sizeof (buffer), dosya)) {
             char* key = getKey(buffer);
+            if (key == NULL) continue;
             char* value = getValue(buffer);
             if (key == "insan_imparatorlugu" || key == "ork_legi") {
                 kind = key;
@@ -59,6 +59,7 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                 foundAttack = false;
                 struct UnitType unitType;
                 unitType = createUnitType(kind, name, attack, defence, hp, criticalRate);
+                printf("%s\n%s\n%d\n%d\n%d\n%d\n\n\n", kind, name, attack, defence, hp, criticalRate);
             }
         }
     } else if (isResearch) {
@@ -70,7 +71,9 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
         bool foundExplanation = false;
         while (fgets(buffer, sizeof (buffer), dosya)) {
             char* key = getKey(buffer);
+            if (key == NULL) continue;
             char* value = getValue(buffer);
+            printf("%s:%s\n", key, value);
             if (key == "savunma_ustaligi" || key == "saldiri_gelistirmesi" || key == "elit_egitim" || key == "kusatma_ustaligi") {
                 name = key;
             } else if (key == "seviye_1") {
@@ -107,7 +110,9 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
         bool foundExplanation = false;
         while (fgets(buffer, sizeof (buffer), dosya)) {
             char* key = getKey(buffer);
+            if (key == NULL) continue;
             char* value = getValue(buffer);
+            printf("%s:%s\n", key, value);
             if (key == "ork_legi" || key == "insan_imparatorlugu") {
                 kind = key;
             } else if (key == "Alparslan" || key == "Yavuz_Sultan_Selim" || key == "Fatih_Sultan_Mehmet" || key == "Tugrul_Bey" || key == "Goruk_Vahsi" || key == "Thruk_Kemikkiran" || key == "Vrog_Kafakiran" || key == "Ugar_Zalim") {
@@ -145,10 +150,12 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
         bool foundExplanation = false;
         while (fgets(buffer, sizeof (buffer), dosya)) {
             char* key = getKey(buffer);
+            if (key == NULL) continue;
             char* value = getValue(buffer);
+            printf("%s:%s\n", key, value);
             if (key == "ork_legi" || key == "insan_imparatorlugu") {
                 kind = key;
-            } else if (key == "Ejderha" || key == "Agri_Dagi_Devleri" || key == "Tepegoz" || key == "Karakurt" key == "Samur" || key == "Kara_Troll" || key == "Golge_Kurtlari" || key == "Camur_Devleri" || key == "Ates_Iblisi" || key == "Buz_Devleri") {
+            } else if (key == "Ejderha" || key == "Agri_Dagi_Devleri" || key == "Tepegoz" || key == "Karakurt" || key == "Samur" || key == "Kara_Troll" || key == "Golge_Kurtlari" || key == "Camur_Devleri" || key == "Ates_Iblisi" || key == "Buz_Devleri") {
                 name = key;
             } else if (key == "etki_degeri") {
                 bonusAmount = atoi(value);
@@ -186,12 +193,12 @@ char* getKey(char* row) {
     for (int i = 0; i < length; i++) {
         if (row[i] == '"' && firstQuatationIndex == -1) {
             firstQuatationIndex = i;
+            continue;
         }
         if (row[i] == ':') {
             lastQuatationIndex = i - 1;
         }
     }
-
     if (firstQuatationIndex != -1 && lastQuatationIndex != -1) {
         result = (char*) malloc((lastQuatationIndex - firstQuatationIndex) * sizeof (char));
         int counter = 0;
@@ -199,8 +206,8 @@ char* getKey(char* row) {
             result[counter] = row[i];
             counter++;
         }
+        result[counter] = '\0';
     }
-
     return result;
 
 }
@@ -213,6 +220,10 @@ char* getValue(char* row) {
     int lastQuatationIndexAfterColon = -1;
     int colonIndex = -1;
     for (int i = 0; i < length; i++) {
+        if (row[i] == '{') {
+            result = "";
+            return result;
+        }
         if (row[i] == ':' && colonIndex == -1) {
             colonIndex = i;
             continue;
@@ -229,19 +240,22 @@ char* getValue(char* row) {
     if (lastQuatationIndexAfterColon != -1 && firstQuatationIndexAfterColon != -1) {
         result = (char*) malloc((lastQuatationIndexAfterColon - firstQuatationIndexAfterColon) * sizeof (char));
         int counter = 0;
-        for (int i = firstQuatationIndexAfterColon; i < lastQuatationIndexAfterColon; i++) {
+        for (int i = firstQuatationIndexAfterColon + 1; i < lastQuatationIndexAfterColon; i++) {
             result[counter] = row[i];
             counter++;
         }
         result[counter] = '\0';
     } else if (lastQuatationIndexAfterColon == -1 && firstQuatationIndexAfterColon == -1) {
         int counter = 0;
-        for (int i = colonIndex + 1; row[i] != ' '; i++) {
+        for (int i = colonIndex + 2; (row[i] != ',' || row[i] != ' ') && row[i] != '\0'; i++) {
             counter++;
         }
         result = (char*) malloc((counter + 1) * sizeof (char));
         int j = 0;
-        for (int i = colonIndex + 1; row[i] != ' '; i++) {
+        for (int i = colonIndex + 2; i < colonIndex + counter; i++) {
+            if (i == colonIndex + counter - 1 && row[i] == ',') {
+                break;
+            }
             result[j] = row[i];
             j++;
         }
@@ -249,7 +263,3 @@ char* getValue(char* row) {
     }
     return result;
 }
-
-
-
-
