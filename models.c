@@ -63,6 +63,8 @@ struct Team* createTeam(int id, struct UnitType* unitType, bool isHumanUnit, int
     team->unitType = unitType;
     team->isHumanUnit = isHumanUnit;
     team->amount = amount;
+    team->hp = amount * unitType->hp ;
+    team->isActiveTeam = true ;
     return team;
 }
 

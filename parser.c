@@ -5,6 +5,7 @@
 #include "models.h"
 #include "parser.h"
 #include "teamlist.h"
+#include <time.h>
 
 /*
  nesneler olusacak ancak uygulamada kullanilmasi icin bir veri yapisina kayit edilmeli
@@ -137,8 +138,7 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
             } else if (strcmp(key, "bonus_turu") == 0) {
                 bonusKind = value;
                 foundBonusKind = true;
-            }
-                //            } else if (strcmp(key, "etkiledigi_birim") == 0) {
+            }                //            } else if (strcmp(key, "etkiledigi_birim") == 0) {
                 //                affectedUnitName = value;
                 //                foundAffectedUnitName = true;
                 //                } 
@@ -256,14 +256,16 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                 unitType = findUnitTypeByName(key);
                 int valueDecimal = atoi(value);
                 int teamAmount = valueDecimal / 100;
+                srand(time(0));
                 for (int i = 0; i < teamAmount; i++) {
-                    struct Team* team = createTeam(i, unitType, true, 100);
+                    int randomId = rand() % 1000 ;
+                    struct Team* team = createTeam(randomId, unitType, true, 100);
                     addTeam(team);
                 }
                 if (valueDecimal % 100 != 0) {
                     int lastTeamAmount = valueDecimal % 100;
                     struct Team* team;
-                    team = createTeam(20L, unitType, true, lastTeamAmount);
+                    team = createTeam(rand() % 1000, unitType, true, lastTeamAmount);
                     addTeam(team);
                 }
             } else if (strcmp(key, "ork_dovusculeri") == 0 || strcmp(key, "mizrakcilar") == 0 || strcmp(key, "varg_binicileri") == 0 || strcmp(key, "troller") == 0) {
@@ -272,15 +274,16 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                 unitType = findUnitTypeByName(key);
                 int valueDecimal = atoi(value);
                 int teamAmount = valueDecimal / 100;
+                srand(time(0));
                 for (int i = 0; i < teamAmount; i++) {
                     struct Team* team;
-                    team = createTeam(i, unitType, false, 100);
+                    team = createTeam(rand() % 1000, unitType, false, 100);
                     addTeam(team);
                 }
                 if (valueDecimal % 100 != 0) {
                     int lastTeamAmount = valueDecimal % 100;
                     struct Team* team;
-                    team = createTeam(20L, unitType, false, lastTeamAmount);
+                    team = createTeam(rand() % 1000, unitType, false, lastTeamAmount);
                     addTeam(team);
                 }
             } else if (strcmp(key, "savunma_ustaligi") == 0 || strcmp(key, "saldiri_gelistirmesi") == 0 || strcmp(key, "elit_egitim") == 0 || strcmp(key, "kusatma_ustaligi") == 0) {

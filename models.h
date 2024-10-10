@@ -45,7 +45,9 @@ struct Team {
     int id;
     struct UnitType* unitType;
     bool isHumanUnit;
+    bool isActiveTeam ;
     int amount;
+    float hp ;
     struct Team* next;
 };
 

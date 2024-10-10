@@ -37,7 +37,7 @@ int main() {
 //            printf("Aktif research : %s : %d insan icin : %b ork icin : %b \n",research->name , research->level,research->isForHuman,research->isForOrcs) ;
 //        }
 //    }
-    
+    printTeams() ;
 
     war();
 

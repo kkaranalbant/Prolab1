@@ -8,7 +8,7 @@ float calculateHumanAttackPower(int stepNumber) {
     struct Team* currentTeam = head;
     float result = 0;
     while (currentTeam != NULL) {
-        if (currentTeam->isHumanUnit) {
+        if (currentTeam->isHumanUnit && currentTeam->isActiveTeam) {
             int criticalHitStepNumber = 100 / currentTeam->unitType->criticalRate;
             if (stepNumber % criticalHitStepNumber == 0) {
                 result += currentTeam->amount * currentTeam->unitType->attack * 1.5;
@@ -25,7 +25,7 @@ float calculateOrcAttackPower(int stepNumber) {
     struct Team* currentTeam = head;
     float result = 0;
     while (currentTeam != NULL) {
-        if (!currentTeam->isHumanUnit) {
+        if (!currentTeam->isHumanUnit && currentTeam->isActiveTeam) {
             int criticalHitStepNumber = 100 / currentTeam->unitType->criticalRate;
             if (stepNumber % criticalHitStepNumber == 0) {
                 result += currentTeam->amount * currentTeam->unitType->attack * 1.5;
@@ -42,7 +42,7 @@ float calculateHumanDefenceAmount() {
     struct Team* currentTeam = head;
     float result = 0;
     while (currentTeam != NULL) {
-        if (currentTeam->isHumanUnit) {
+        if (currentTeam->isHumanUnit && currentTeam->isActiveTeam) {
             result += currentTeam->amount * currentTeam->unitType->defence;
         }
         currentTeam = currentTeam->next;
@@ -54,7 +54,7 @@ float calculateHumanMaxDefenceAmount() {
     struct Team* currentTeam = head;
     float result = 0;
     while (currentTeam != NULL) {
-        if (currentTeam->isHumanUnit) {
+        if (currentTeam->isHumanUnit && currentTeam->isActiveTeam) {
             result += currentTeam->amount * currentTeam->unitType->maxDefence;
         }
         currentTeam = currentTeam->next;
@@ -66,7 +66,7 @@ float calculateOrcDefenceAmount() {
     struct Team* currentTeam = head;
     float result = 0;
     while (currentTeam != NULL) {
-        if (!currentTeam->isHumanUnit) {
+        if (!currentTeam->isHumanUnit && currentTeam->isActiveTeam) {
             result += currentTeam->amount * currentTeam->unitType->defence;
         }
         currentTeam = currentTeam->next;
@@ -74,72 +74,74 @@ float calculateOrcDefenceAmount() {
     return result;
 }
 
-float calculateOrcMaxDefenceAmount() {
+void doDamageToHumanTeam(float totalDamage) {
     struct Team* currentTeam = head;
-    float result = 0;
-    while (currentTeam != NULL) {
-        if (!currentTeam->isHumanUnit) {
-            result += currentTeam->amount * currentTeam->unitType->maxDefence;
-        }
-        currentTeam = currentTeam->next;
-    }
-    return result;
-}
 
-int calculateHpOfTeam(struct Team* team) {
-    int result = 0;
-    result = team->amount * team->unitType->hp;
-    return result;
-}
+    float netDamageForAllHumanTeam = totalDamage * (1 - (calculateHumanDefenceAmount() / totalDamage));
+    float humanDefenceAmount = calculateHumanDefenceAmount() ;
+    if (netDamageForAllHumanTeam > 0) {
+        while (currentTeam != NULL) { 
+            if (currentTeam->isHumanUnit && currentTeam->isActiveTeam) {
+                float defenceAmount = currentTeam->amount * currentTeam->unitType->defence;
+                float netDamageForTeam = netDamageForAllHumanTeam * (defenceAmount / humanDefenceAmount);
 
-int calculateAmountOfTeamByHp(struct Team* team, int hp) {
-    int result = 0;
-    result = hp / team->unitType->hp;
-    return result;
-}
+                int deadAmount = (int) (netDamageForTeam / (currentTeam->hp / currentTeam->amount));
+                if (deadAmount > currentTeam->amount) {
+                    deadAmount = currentTeam->amount; 
+                }
 
-void doDamageToHumanTeam(int totalDamage) {
-    struct Team* currentTeam = head;
-    float netDamageForAllHumanTeam = totalDamage * (1 - (calculateHumanDefenceAmount() / calculateHumanMaxDefenceAmount()));
-    while (currentTeam->next != NULL) {
-        if (currentTeam->isHumanUnit) {
-            float defenceAmount = currentTeam->amount * currentTeam->unitType->defence;
-            float netDamageForTeam = netDamageForAllHumanTeam * (defenceAmount / calculateHumanDefenceAmount());
-            int teamHp = calculateHpOfTeam(currentTeam);
-            int newTeamHp = teamHp - netDamageForTeam;
-            if (teamHp == 0 || newTeamHp > teamHp || newTeamHp < 0) {
-                currentTeam->amount = 0;
-                currentTeam = currentTeam->next;
-                continue;
+                int newTeamAmount = currentTeam->amount - deadAmount;
+                float newTeamHp = currentTeam->hp - netDamageForTeam;
+
+                if (newTeamAmount > 0 && newTeamHp > 0) {
+                    currentTeam->amount = newTeamAmount;
+                    currentTeam->hp = newTeamHp;
+                } else {
+                    currentTeam->amount = 0;
+                    currentTeam->hp = 0;
+                    currentTeam->isActiveTeam = false; 
+                }
+
+                printf("orc takimi %d id li takima %f hasar vurdu. Takimin yeni cani : %.2f , takimin yeni sayisi %d \n",
+                        currentTeam->id, netDamageForTeam, currentTeam->hp, currentTeam->amount);
             }
-            int newTeamAmount = calculateAmountOfTeamByHp(currentTeam, newTeamHp);
-            currentTeam->amount = newTeamAmount;
+            currentTeam = currentTeam->next; 
         }
-        currentTeam = currentTeam->next;
     }
 }
 
-void doDamageToOrcTeam(int totalDamage) {
+void doDamageToOrcTeam(float totalDamage) {
     struct Team* currentTeam = head;
-    float netDamageForAllOrcTeam = totalDamage * (1 - (calculateOrcDefenceAmount() / calculateOrcMaxDefenceAmount()));
-    printf("Butun orklara verilen toplam hasar : %f\n",netDamageForAllOrcTeam);
-    while (currentTeam->next != NULL) {
-        if (!currentTeam->isHumanUnit) {
-            float defenceAmount = currentTeam->amount * currentTeam->unitType->defence;
-            float netDamageForTeam = netDamageForAllOrcTeam * (defenceAmount / calculateOrcDefenceAmount());
-            //printf("orclarin yeni hasari : %f\n",netDamageForTeam);
-            int teamHp = calculateHpOfTeam(currentTeam);
-            int newTeamHp = teamHp - netDamageForTeam;
-            if (teamHp == 0 || newTeamHp > teamHp || newTeamHp < 0) {
-                currentTeam->amount = 0;
-                currentTeam = currentTeam->next;
-                continue;
+    float netDamageForAllOrcTeam = totalDamage * (1 - (calculateOrcDefenceAmount() / totalDamage));
+    float orcDefenceAmount = calculateOrcDefenceAmount() ;
+    if (netDamageForAllOrcTeam > 0) {
+        while (currentTeam != NULL) {
+            if (!currentTeam->isHumanUnit && currentTeam->isActiveTeam) {
+                float defenceAmount = currentTeam->amount * currentTeam->unitType->defence;
+                float netDamageForTeam = netDamageForAllOrcTeam * (defenceAmount / orcDefenceAmount);
+
+                int deadAmount = (int) (netDamageForTeam / (currentTeam->hp / currentTeam->amount));
+                if (deadAmount > currentTeam->amount) {
+                    deadAmount = currentTeam->amount;
+                }
+
+                int newTeamAmount = currentTeam->amount - deadAmount;
+                float newTeamHp = currentTeam->hp - netDamageForTeam;
+
+                if (newTeamAmount > 0 && newTeamHp > 0) {
+                    currentTeam->amount = newTeamAmount;
+                    currentTeam->hp = newTeamHp;
+                } else {
+                    currentTeam->amount = 0;
+                    currentTeam->hp = 0;
+                    currentTeam->isActiveTeam = false;
+                }
+
+                printf("insan takimi %d id li takima %f hasar vurdu. Takimin yeni cani : %.2f , takimin yeni sayisi %d \n",
+                        currentTeam->id, netDamageForTeam, currentTeam->hp, currentTeam->amount);
             }
-            int newTeamAmount = calculateAmountOfTeamByHp(currentTeam, newTeamHp);
-            //printf("orc takiminin yeni sayisi : %d\n",newTeamAmount);
-            currentTeam->amount = newTeamAmount;
+            currentTeam = currentTeam->next;
         }
-        currentTeam = currentTeam->next;
     }
 }
 
@@ -995,11 +997,9 @@ void war() {
         }
         if (i % 2 == 1) {
             float humanAttackPower = calculateHumanAttackPower(i);
-            //printf("insan atak : %f\n", humanAttackPower);
             doDamageToOrcTeam(humanAttackPower);
         } else {
             int orcAttackPower = calculateOrcAttackPower(i);
-            //printf("orc atak : %f\n", orcAttackPower);
             doDamageToHumanTeam(orcAttackPower);
         }
     }
