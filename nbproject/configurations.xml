@@ -7,6 +7,7 @@
       <itemPath>httpsreq.h</itemPath>
       <itemPath>models.h</itemPath>
       <itemPath>parser.h</itemPath>
+      <itemPath>teamlist.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -19,6 +20,8 @@
       <itemPath>main.c</itemPath>
       <itemPath>models.c</itemPath>
       <itemPath>parser.c</itemPath>
+      <itemPath>teamlist.c</itemPath>
+      <itemPath>warmechanics.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -61,6 +64,12 @@
       </item>
       <item path="parser.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="teamlist.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="teamlist.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="warmechanics.c" ex="false" tool="0" flavor2="0">
+      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
@@ -95,6 +104,12 @@
       <item path="parser.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="parser.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="teamlist.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="teamlist.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="warmechanics.c" ex="false" tool="0" flavor2="0">
       </item>
     </conf>
   </confs>

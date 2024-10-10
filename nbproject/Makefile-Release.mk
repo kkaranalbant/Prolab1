@@ -38,7 +38,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/httpsreq.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/models.o \
-	${OBJECTDIR}/parser.o
+	${OBJECTDIR}/parser.o \
+	${OBJECTDIR}/teamlist.o \
+	${OBJECTDIR}/warmechanics.o
 
 
 # C Compiler Flags
@@ -84,6 +86,16 @@ ${OBJECTDIR}/parser.o: parser.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/parser.o parser.c
+
+${OBJECTDIR}/teamlist.o: teamlist.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/teamlist.o teamlist.c
+
+${OBJECTDIR}/warmechanics.o: warmechanics.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/warmechanics.o warmechanics.c
 
 # Subprojects
 .build-subprojects:

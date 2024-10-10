@@ -3,9 +3,10 @@
 
 #include <stdbool.h>
 
-void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bool isScenerio, bool isCreature);
+void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bool isCreature);
 
 char* getKey(char* row);
 char* getValue(char* row);
+char** getSubstringValues(char* row);
 
 #endif
