@@ -3,6 +3,11 @@
 #include "models.h"
 #include "teamlist.h"
 #include <string.h>
+#include <stdbool.h>
+
+
+bool isHumansHaveActiveTeam();
+bool isOrcsHaveActiveTeam();
 
 float calculateHumanAttackPower(int stepNumber) {
     struct Team* currentTeam = head;
@@ -77,17 +82,28 @@ float calculateOrcDefenceAmount() {
 void doDamageToHumanTeam(float totalDamage) {
     struct Team* currentTeam = head;
 
-    float netDamageForAllHumanTeam = totalDamage * (1 - (calculateHumanDefenceAmount() / totalDamage));
-    float humanDefenceAmount = calculateHumanDefenceAmount() ;
+    float humanDefenceAmount = calculateHumanDefenceAmount();
+
+    float netDamageForAllHumanTeam = totalDamage * (1 - (humanDefenceAmount / totalDamage));
+
+    char firstMessage[256];
+
+    snprintf(firstMessage, sizeof (firstMessage),
+            "Orc Takimi Insan Takimina Saldiriyor.\nVerilen Toplam Hasar: %.2f\nVerilen Net Hasar: %.2f\nInsan Imparatorlugunun Defansi: %.2f\n",
+            totalDamage, netDamageForAllHumanTeam, humanDefenceAmount);
+
+    addMessageToFile(firstMessage);
+
     if (netDamageForAllHumanTeam > 0) {
-        while (currentTeam != NULL) { 
+        while (currentTeam != NULL) {
             if (currentTeam->isHumanUnit && currentTeam->isActiveTeam) {
                 float defenceAmount = currentTeam->amount * currentTeam->unitType->defence;
+
                 float netDamageForTeam = netDamageForAllHumanTeam * (defenceAmount / humanDefenceAmount);
 
                 int deadAmount = (int) (netDamageForTeam / (currentTeam->hp / currentTeam->amount));
                 if (deadAmount > currentTeam->amount) {
-                    deadAmount = currentTeam->amount; 
+                    deadAmount = currentTeam->amount;
                 }
 
                 int newTeamAmount = currentTeam->amount - deadAmount;
@@ -99,25 +115,43 @@ void doDamageToHumanTeam(float totalDamage) {
                 } else {
                     currentTeam->amount = 0;
                     currentTeam->hp = 0;
-                    currentTeam->isActiveTeam = false; 
+                    currentTeam->isActiveTeam = false;
                 }
 
-                printf("orc takimi %d id li takima %f hasar vurdu. Takimin yeni cani : %.2f , takimin yeni sayisi %d \n",
-                        currentTeam->id, netDamageForTeam, currentTeam->hp, currentTeam->amount);
+                char secondaryMessage[256];
+
+                snprintf(secondaryMessage, sizeof (secondaryMessage),
+                        "Orclar %d id li ve %s birlik tipine sahip insan takimina %.2f net hasar vurdu.\n"
+                        "Takimin yeni cani: %.2f, Takimin yeni sayisi: %d\n",
+                        currentTeam->id, currentTeam->unitType->name, netDamageForTeam, currentTeam->hp, currentTeam->amount);
+
+                addMessageToFile(secondaryMessage);
             }
-            currentTeam = currentTeam->next; 
+            currentTeam = currentTeam->next;
         }
     }
 }
 
 void doDamageToOrcTeam(float totalDamage) {
     struct Team* currentTeam = head;
-    float netDamageForAllOrcTeam = totalDamage * (1 - (calculateOrcDefenceAmount() / totalDamage));
-    float orcDefenceAmount = calculateOrcDefenceAmount() ;
+
+    float orcDefenceAmount = calculateOrcDefenceAmount();
+
+    float netDamageForAllOrcTeam = totalDamage * (1 - (orcDefenceAmount / totalDamage));
+
+    char firstMessage[256];
+
+    snprintf(firstMessage, sizeof (firstMessage),
+            "Insan Takimi Orc Takimina Saldiriyor.\nVerilen Toplam Hasar: %.2f\nVerilen Net Hasar: %.2f\nOrc Leginin Defansi: %.2f\n",
+            totalDamage, netDamageForAllOrcTeam, orcDefenceAmount);
+
+    addMessageToFile(firstMessage);
+
     if (netDamageForAllOrcTeam > 0) {
         while (currentTeam != NULL) {
             if (!currentTeam->isHumanUnit && currentTeam->isActiveTeam) {
                 float defenceAmount = currentTeam->amount * currentTeam->unitType->defence;
+
                 float netDamageForTeam = netDamageForAllOrcTeam * (defenceAmount / orcDefenceAmount);
 
                 int deadAmount = (int) (netDamageForTeam / (currentTeam->hp / currentTeam->amount));
@@ -137,8 +171,14 @@ void doDamageToOrcTeam(float totalDamage) {
                     currentTeam->isActiveTeam = false;
                 }
 
-                printf("insan takimi %d id li takima %f hasar vurdu. Takimin yeni cani : %.2f , takimin yeni sayisi %d \n",
-                        currentTeam->id, netDamageForTeam, currentTeam->hp, currentTeam->amount);
+                char secondaryMessage[256];
+
+                snprintf(secondaryMessage, sizeof (secondaryMessage),
+                        "Insan Imparatorlugu %d id li ve %s birlik tipine sahip takima %.2f net hasar vurdu.\n"
+                        "Takimin yeni cani: %.2f, Takimin yeni sayisi: %d\n",
+                        currentTeam->id, currentTeam->unitType->name, netDamageForTeam, currentTeam->hp, currentTeam->amount);
+
+                addMessageToFile(secondaryMessage);
             }
             currentTeam = currentTeam->next;
         }
@@ -991,16 +1031,60 @@ void prepareWar() {
 
 void war() {
     prepareWar();
-    for (int i = 1; i <= 500; i++) {
+    for (int i = 1; i <= 100; i++) {
         if (i % 5 == 0) {
             tireAllOfTeams();
         }
         if (i % 2 == 1) {
             float humanAttackPower = calculateHumanAttackPower(i);
             doDamageToOrcTeam(humanAttackPower);
+            if (!isOrcsHaveActiveTeam()) {
+                char message[70];
+                snprintf(message, sizeof (message), "Orclarin Tamami Oldu.\nSavasin bittigi adim sayisi : %d", i);
+                addMessageToFile(message);
+                break;
+            }
         } else {
             int orcAttackPower = calculateOrcAttackPower(i);
             doDamageToHumanTeam(orcAttackPower);
+            if (!isHumansHaveActiveTeam()) {
+                char message[70];
+                snprintf(message, sizeof (message), "Insanlarin Tamami Oldu.\nSavasin bittigi adim sayisi : %d", i);
+                addMessageToFile(message);
+                break;
+            }
         }
     }
 }
+
+void addMessageToFile(char* message) {
+    const char* filePath = "/home/kaan/Desktop/Info.txt";
+    FILE* file = fopen(filePath, "a");
+    fprintf(file, "%s\n", message);
+    fclose(file);
+}
+
+bool isHumansHaveActiveTeam() {
+    struct Team* currentTeam = head;
+    while (currentTeam != NULL) {
+        if (currentTeam->isActiveTeam && currentTeam->isHumanUnit) {
+            return true;
+        }
+        currentTeam = currentTeam->next;
+    }
+    return false;
+}
+
+bool isOrcsHaveActiveTeam() {
+    struct Team* currentTeam = head;
+    while (currentTeam != NULL) {
+        if (currentTeam->isActiveTeam && !currentTeam->isHumanUnit) {
+            return true;
+        }
+        currentTeam = currentTeam->next;
+    }
+    return false;
+}
+
+
+
