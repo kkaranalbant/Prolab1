@@ -9,4 +9,9 @@ char* getKey(char* row);
 char* getValue(char* row);
 char** getSubstringValues(char* row);
 
+void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bool isCreature) ;
+
+
+
+
 #endif

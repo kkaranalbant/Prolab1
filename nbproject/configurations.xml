@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>goruntu.h</itemPath>
       <itemPath>httpsreq.h</itemPath>
       <itemPath>models.h</itemPath>
       <itemPath>parser.h</itemPath>
@@ -16,8 +17,9 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>ana.c</itemPath>
+      <itemPath>goruntuu.c</itemPath>
       <itemPath>httpsreq.c</itemPath>
-      <itemPath>main.c</itemPath>
       <itemPath>models.c</itemPath>
       <itemPath>parser.c</itemPath>
       <itemPath>teamlist.c</itemPath>
@@ -47,14 +49,21 @@
         <linkerTool>
           <linkerLibItems>
             <linkerLibLibItem>curl</linkerLibLibItem>
+            <linkerLibLibItem>SDL2-2.0</linkerLibLibItem>
+            <linkerLibLibItem>SDL2</linkerLibLibItem>
+            <linkerLibLibItem>SDL2_ttf</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="ana.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="goruntu.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="goruntuu.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="httpsreq.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="httpsreq.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="models.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -91,11 +100,15 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="ana.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="goruntu.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="goruntuu.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="httpsreq.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="httpsreq.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="models.c" ex="false" tool="0" flavor2="0">
       </item>

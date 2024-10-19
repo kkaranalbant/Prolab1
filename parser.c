@@ -64,7 +64,7 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                 foundAttack = false;
                 struct UnitType* unitType = createUnitType(kind, name, attack, defence, hp, criticalRate);
                 for (int i = 0; i < 8; i++) {
-                    if (unitTypes[i]->kind == NULL) {
+                    if (unitTypes[i]->name == NULL) {
                         unitTypes[i] = unitType;
                         break;
                     }
@@ -138,29 +138,48 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
             } else if (strcmp(key, "bonus_turu") == 0) {
                 bonusKind = value;
                 foundBonusKind = true;
-            }                //            } else if (strcmp(key, "etkiledigi_birim") == 0) {
-                //                affectedUnitName = value;
-                //                foundAffectedUnitName = true;
-                //                } 
-            else if (strcmp(key, "bonus_degeri") == 0) {
+            } else if (strcmp(key, "bonus_degeri") == 0) {
                 bonusAmount = atoi(value);
                 foundBonusAmount = true;
             } else if (strcmp(key, "aciklama") == 0) {
                 explanation = value;
-                foundExplanation = true;
+                char* firstTwoCharsOfExplanation = malloc(3 * sizeof (char));
+                for (int i = 0; i < 2; i++) {
+                    firstTwoCharsOfExplanation[i] = explanation[i];
+                }
+                firstTwoCharsOfExplanation[2] = '\0';
+                if (strcmp(firstTwoCharsOfExplanation, "pi") == 0) {
+                    affectedUnitName = "piyadeler";
+                } else if (strcmp(firstTwoCharsOfExplanation, "ku") == 0) {
+                    affectedUnitName = "kusatma_makineleri";
+                } else if (strcmp(firstTwoCharsOfExplanation, "su") == 0) {
+                    affectedUnitName = "suvariler";
+                } else if (strcmp(firstTwoCharsOfExplanation, "ok") == 0) {
+                    affectedUnitName = "okcular";
+                } else if (strcmp(firstTwoCharsOfExplanation, "or") == 0) {
+                    affectedUnitName = "ork_dovusculeri";
+                } else if (strcmp(firstTwoCharsOfExplanation, "tr") == 0) {
+                    affectedUnitName = "troller";
+                } else if (strcmp(firstTwoCharsOfExplanation, "va") == 0) {
+                    affectedUnitName = "varg_binicileri";
+                } else if (strcmp(firstTwoCharsOfExplanation, "mi") == 0) {
+                    affectedUnitName = "mizrakcilar";
+                } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(kind, "ork_legi") == 0) {
+                    affectedUnitName = "all";
+                }
+                foundAffectedUnitName = true;
             }
-
-            if (foundBonusAmount && foundBonusKind && foundExplanation) {
-                foundAffectedUnitName = false;
+            if (foundBonusAmount && foundBonusKind && foundExplanation, foundAffectedUnitName) {
                 foundBonusAmount = false;
                 foundBonusKind = false;
                 foundExplanation = false;
+                foundAffectedUnitName = false;
+
                 struct Hero* hero;
                 hero = createHero(kind, name, bonusAmount, affectedUnitName, explanation, bonusKind, false);
-                for (int i = 0; i < 8; i++) {
-                    if (heroes[i]->kind == NULL) {
+                for (int i = 0; i < 9; i++) {
+                    if (heroes[i]->name == NULL) {
                         heroes[i] = hero;
-                        printf("Hero eklendi : %s\n", heroes[i]->name);
                         break;
                     }
                 }
@@ -172,9 +191,11 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
         int bonusAmount;
         char* affectionType;
         char* explanation;
+        char* affectedUnitName;
         bool foundBonusAmount = false;
         bool foundAffectionType = false;
         bool foundExplanation = false;
+        bool foundAffectedUnitName = false;
         while (fgets(buffer, sizeof (buffer), dosya)) {
             char* key = getKey(buffer);
             if (key == NULL) continue;
@@ -185,7 +206,7 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                     strcmp(key, "Tepegoz") == 0 || strcmp(key, "Karakurt") == 0 ||
                     strcmp(key, "Samur") == 0 || strcmp(key, "Kara_Troll") == 0 ||
                     strcmp(key, "Golge_Kurtlari") == 0 || strcmp(key, "Camur_Devleri") == 0 ||
-                    strcmp(key, "Ates_Iblisi") == 0 || strcmp(key, "Buz_Devleri") == 0) {
+                    strcmp(key, "Ates_Iblisi") == 0 || strcmp(key, "Buz_Devleri") == 0 || strcmp(key, "Makrog_Savas_Beyi") == 0) {
                 name = key;
             } else if (strcmp(key, "etki_degeri") == 0) {
                 bonusAmount = atoi(value);
@@ -195,17 +216,41 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                 foundAffectionType = true;
             } else if (strcmp(key, "aciklama") == 0) {
                 explanation = value;
+                char* firstTwoCharsOfExplanation = malloc(3 * sizeof (char));
+                for (int i = 0; i < 2; i++) {
+                    firstTwoCharsOfExplanation[i] = explanation[i];
+                }
+                firstTwoCharsOfExplanation[2] = '\0';
+                if (strcmp(firstTwoCharsOfExplanation, "pi") == 0) {
+                    affectedUnitName = "piyadeler";
+                } else if (strcmp(firstTwoCharsOfExplanation, "ku") == 0) {
+                    affectedUnitName = "kusatma_makineleri";
+                } else if (strcmp(firstTwoCharsOfExplanation, "su") == 0) {
+                    affectedUnitName = "suvariler";
+                } else if (strcmp(firstTwoCharsOfExplanation, "ok") == 0) {
+                    affectedUnitName = "okcular";
+                } else if (strcmp(firstTwoCharsOfExplanation, "or") == 0) {
+                    affectedUnitName = "ork_dovusculeri";
+                } else if (strcmp(firstTwoCharsOfExplanation, "tr") == 0) {
+                    affectedUnitName = "troller";
+                } else if (strcmp(firstTwoCharsOfExplanation, "va") == 0) {
+                    affectedUnitName = "varg_binicileri";
+                } else if (strcmp(firstTwoCharsOfExplanation, "mi") == 0) {
+                    affectedUnitName = "mizrakcilar";
+                }
+                foundAffectedUnitName = true;
                 foundExplanation = true;
             }
 
-            if (foundAffectionType && foundBonusAmount && foundExplanation) {
+            if (foundAffectionType && foundBonusAmount && foundExplanation && foundAffectedUnitName) {
                 foundAffectionType = false;
                 foundBonusAmount = false;
                 foundExplanation = false;
+                foundAffectedUnitName = false;
                 struct Creature* creature;
-                creature = createCreature(kind, name, bonusAmount, affectionType, explanation, false);
-                for (int i = 0; i < 10; i++) {
-                    if (creatures[i]->kind == NULL) {
+                creature = createCreature(kind, name, bonusAmount, affectionType, explanation, false, affectedUnitName);
+                for (int i = 0; i < 11; i++) {
+                    if (creatures[i]->name == NULL) {
                         creatures[i] = creature;
                         break;
                     }
@@ -223,7 +268,7 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                 char** substrings = getSubstringValues(buffer);
                 for (int i = 0; substrings[i] != NULL; i++) {
                     char* substring = substrings[i];
-                    for (int j = 0; j < 10; j++) {
+                    for (int j = 0; j < 11; j++) {
                         struct Creature* creature;
                         creature = creatures[j];
                         if (creature->name != NULL && strcmp(creature->name, substring) == 0) {
@@ -238,13 +283,11 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                 char** substrings = getSubstringValues(buffer);
                 for (int i = 0; substrings[i] != NULL; i++) {
                     char* substring = substrings[i];
-                    for (int j = 0; j < 8; j++) {
-                        //printf("%s uzunluk : %d   %s uzunluk : %d ...\n",substring,strlen(substring),heroes[i]->name,strlen(heroes[i]->name));
+                    for (int j = 0; j < 9; j++) {
                         struct Hero* hero;
                         hero = heroes[j];
                         if (hero->name != NULL && strcmp(hero->name, substring) == 0) {
                             hero->isActive = true;
-                            printf("%s aktif\n", hero->name);
                             break;
                         }
                     }
@@ -258,7 +301,7 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                 int teamAmount = valueDecimal / 100;
                 srand(time(0));
                 for (int i = 0; i < teamAmount; i++) {
-                    int randomId = rand() % 1000 ;
+                    int randomId = rand() % 1000;
                     struct Team* team = createTeam(randomId, unitType, true, 100);
                     addTeam(team);
                 }
@@ -293,7 +336,7 @@ void parseFile(char* fileName, bool isUnitType, bool isResearch, bool isHero, bo
                     research = researches[i];
                     if (research->name != NULL && strcmp(key, research->name) == 0 && research->level == atoi(value)) {
                         research->isActive = true;
-                        if (kind != NULL && strcmp(kind, "ork_legi") == 0) {
+                        if (kind[0] != NULL && strcmp(kind, "ork_legi") == 0) {
                             research->isForHuman = false;
                             research->isForOrcs = true;
                         } else {

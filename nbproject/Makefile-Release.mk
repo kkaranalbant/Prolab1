@@ -35,8 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/ana.o \
+	${OBJECTDIR}/goruntuu.o \
 	${OBJECTDIR}/httpsreq.o \
-	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/models.o \
 	${OBJECTDIR}/parser.o \
 	${OBJECTDIR}/teamlist.o \
@@ -67,15 +68,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/prolab: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/prolab ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/ana.o: ana.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ana.o ana.c
+
+${OBJECTDIR}/goruntuu.o: goruntuu.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/goruntuu.o goruntuu.c
+
 ${OBJECTDIR}/httpsreq.o: httpsreq.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/httpsreq.o httpsreq.c
-
-${OBJECTDIR}/main.o: main.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
 
 ${OBJECTDIR}/models.o: models.c
 	${MKDIR} -p ${OBJECTDIR}

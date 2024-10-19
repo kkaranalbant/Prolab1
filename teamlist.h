@@ -14,16 +14,19 @@
 #define TEAMLIST_H
 
 #ifdef DEFINE_VARIABLES
-struct Team* head ;
+struct Team* head;
 
 #else
-extern struct Team* head ;
+extern struct Team* head;
 
 #endif
 
-void addTeam (struct Team* team) ;
+void addTeam(struct Team* team);
 
-bool isEmpty () ;
+void freeTeams();
+void printTeams();
+
+bool isEmpty();
 
 #endif /* TEAMLIST_H */
 

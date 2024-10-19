@@ -11,6 +11,7 @@ struct Team* head = NULL;
 void addTeam(struct Team* team) {
     if (head == NULL) {
         head = team;
+        head->next = NULL ;
         return;
     }
 

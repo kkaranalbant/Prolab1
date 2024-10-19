@@ -8,6 +8,8 @@
 
 bool isHumansHaveActiveTeam();
 bool isOrcsHaveActiveTeam();
+void war () ;
+
 
 float calculateHumanAttackPower(int stepNumber) {
     struct Team* currentTeam = head;
@@ -49,18 +51,6 @@ float calculateHumanDefenceAmount() {
     while (currentTeam != NULL) {
         if (currentTeam->isHumanUnit && currentTeam->isActiveTeam) {
             result += currentTeam->amount * currentTeam->unitType->defence;
-        }
-        currentTeam = currentTeam->next;
-    }
-    return result;
-}
-
-float calculateHumanMaxDefenceAmount() {
-    struct Team* currentTeam = head;
-    float result = 0;
-    while (currentTeam != NULL) {
-        if (currentTeam->isHumanUnit && currentTeam->isActiveTeam) {
-            result += currentTeam->amount * currentTeam->unitType->maxDefence;
         }
         currentTeam = currentTeam->next;
     }
@@ -235,7 +225,7 @@ void tireAllOfTeams() {
 }
 
 void initHeroes() {
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 9; i++) {
         if (heroes[i]->isActive) {
             addHeroBonus(heroes[i]);
         }
@@ -650,7 +640,7 @@ void addCriticalBonus(struct Hero* hero) {
 
 void addCreatureBonuses() {
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 11; i++) {
         if (creatures[i]->isActive) {
             struct Team* currentTeam = head;
             char* firstTwoCharactersOfExplanation = malloc(3 * sizeof (char));

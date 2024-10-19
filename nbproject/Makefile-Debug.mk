@@ -35,8 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/ana.o \
+	${OBJECTDIR}/goruntuu.o \
 	${OBJECTDIR}/httpsreq.o \
-	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/models.o \
 	${OBJECTDIR}/parser.o \
 	${OBJECTDIR}/teamlist.o \
@@ -57,7 +58,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lcurl
+LDLIBSOPTIONS=-lcurl -lSDL2-2.0 -lSDL2 -lSDL2_ttf
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -67,15 +68,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/prolab: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/prolab ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/ana.o: ana.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ana.o ana.c
+
+${OBJECTDIR}/goruntuu.o: goruntuu.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/goruntuu.o goruntuu.c
+
 ${OBJECTDIR}/httpsreq.o: httpsreq.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/httpsreq.o httpsreq.c
-
-${OBJECTDIR}/main.o: main.c
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
 
 ${OBJECTDIR}/models.o: models.c
 	${MKDIR} -p ${OBJECTDIR}
