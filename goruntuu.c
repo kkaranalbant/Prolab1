@@ -323,6 +323,10 @@ void drawTeamsOnScreen(SDL_Renderer* ekranYazdir, struct Team * head) {
         printMessages(ekranYazdir);
         isInfoMessageRendered = true;
     }
+    else {
+        infoMesssagePixelChanger = 500 ;
+        printMessages(ekranYazdir);
+    }
 
 
     SDL_RenderPresent(ekranYazdir);
