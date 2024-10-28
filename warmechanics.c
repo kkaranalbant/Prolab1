@@ -8,8 +8,7 @@
 
 bool isHumansHaveActiveTeam();
 bool isOrcsHaveActiveTeam();
-void war () ;
-
+void war();
 
 float calculateHumanAttackPower(int stepNumber) {
     struct Team* currentTeam = head;
@@ -186,35 +185,35 @@ void tireAllOfTeams() {
     bool choosenMizrakci = false;
     bool choosenBinici = false;
     while (currentTeam != NULL) {
-        if (strcmp(currentTeam->unitType->name, "piyadeler"), !choosenPiyade) {
+        if (strcmp(currentTeam->unitType->name, "piyadeler") == 0 && !choosenPiyade) {
             currentTeam->unitType->attack *= 0.9;
             currentTeam->unitType->defence *= 0.9;
             choosenPiyade = true;
-        } else if (strcmp(currentTeam->unitType->name, "okcular"), !choosenOkcu) {
+        } else if (strcmp(currentTeam->unitType->name, "okcular") == 0 && !choosenOkcu) {
             currentTeam->unitType->attack *= 0.9;
             currentTeam->unitType->defence *= 0.9;
             choosenOkcu = true;
-        } else if (strcmp(currentTeam->unitType->name, "suvariler"), !choosenSuvari) {
+        } else if (strcmp(currentTeam->unitType->name, "suvariler") == 0 && !choosenSuvari) {
             currentTeam->unitType->attack *= 0.9;
             currentTeam->unitType->defence *= 0.9;
             choosenSuvari = true;
-        } else if (strcmp(currentTeam->unitType->name, "kusatma_makineleri"), !choosenKusatma) {
+        } else if (strcmp(currentTeam->unitType->name, "kusatma_makineleri") == 0 && !choosenKusatma) {
             currentTeam->unitType->attack *= 0.9;
             currentTeam->unitType->defence *= 0.9;
             choosenKusatma = true;
-        } else if (strcmp(currentTeam->unitType->name, "ork_dovusculeri"), !choosenDovuscu) {
+        } else if (strcmp(currentTeam->unitType->name, "ork_dovusculeri") == 0 && !choosenDovuscu) {
             currentTeam->unitType->attack *= 0.9;
             currentTeam->unitType->defence *= 0.9;
             choosenDovuscu = true;
-        } else if (strcmp(currentTeam->unitType->name, "mizrakcilar"), !choosenMizrakci) {
+        } else if (strcmp(currentTeam->unitType->name, "mizrakcilar") == 0 && !choosenMizrakci) {
             currentTeam->unitType->attack *= 0.9;
             currentTeam->unitType->defence *= 0.9;
             choosenMizrakci = true;
-        } else if (strcmp(currentTeam->unitType->name, "varg_binicileri"), !choosenBinici) {
+        } else if (strcmp(currentTeam->unitType->name, "varg_binicileri") == 0 && !choosenBinici) {
             currentTeam->unitType->attack *= 0.9;
             currentTeam->unitType->defence *= 0.9;
             choosenBinici = true;
-        } else if (strcmp(currentTeam->unitType->name, "troller"), !choosenTrol) {
+        } else if (strcmp(currentTeam->unitType->name, "troller") == 0 && !choosenTrol) {
             currentTeam->unitType->attack *= 0.9;
             currentTeam->unitType->defence *= 0.9;
             choosenTrol = true;
@@ -235,7 +234,7 @@ void initHeroes() {
 void addHeroBonus(struct Hero* hero) {
     if (strcmp(hero->bonusKind, "saldiri") == 0) {
         addAttackBonus(hero);
-    } else if (strcmp(hero->bonusKind, "kritik") == 0) {
+    } else if (strcmp(hero->bonusKind, "kritik_sans") == 0) {
         addCriticalBonus(hero);
     } else if (strcmp(hero->bonusKind, "savunma") == 0) {
         addDefenceBonus(hero);
@@ -251,7 +250,7 @@ void addAttackBonus(struct Hero* hero) {
     }
     if (strcmp(firstTwoCharsOfExplanation, "pi") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "pi") == 0) {
+            if (strcmp(team->unitType->name, "piyadeler") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -259,7 +258,7 @@ void addAttackBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "ku") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "ku") == 0) {
+            if (strcmp(team->unitType->name, "kusatma_makineleri") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -267,7 +266,7 @@ void addAttackBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "su") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "su") == 0) {
+            if (strcmp(team->unitType->name, "suvariler") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -275,7 +274,7 @@ void addAttackBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "ok") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "ok") == 0) {
+            if (strcmp(team->unitType->name, "okcular") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -283,7 +282,7 @@ void addAttackBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "or") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "or") == 0) {
+            if (strcmp(team->unitType->name, "ork_dovusculeri") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -291,7 +290,7 @@ void addAttackBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "tr") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "tr") == 0) {
+            if (strcmp(team->unitType->name, "troller") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -299,7 +298,7 @@ void addAttackBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "va") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "va") == 0) {
+            if (strcmp(team->unitType->name, "varg_binicileri") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -307,65 +306,65 @@ void addAttackBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "mi") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "mi") == 0) {
+            if (strcmp(team->unitType->name, "mizrakcilar") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
             team = team->next;
         }
-    } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(hero->kind, "ork_legi")) {
+    } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(hero->kind, "ork_legi") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "or") == 0) {
-                team->unitType->attack *= (100 + hero->bonusAmount) / 100;
-                break;
-            }
-            team = team->next;
-        }
-        while (team != NULL) {
-            if (strcmp(team->unitType->name, "va") == 0) {
+            if (strcmp(team->unitType->name, "ork_dovusculeri") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
             team = team->next;
         }
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "tr") == 0) {
+            if (strcmp(team->unitType->name, "varg_binicileri") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
             team = team->next;
         }
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "mi") == 0) {
-                team->unitType->attack *= (100 + hero->bonusAmount) / 100;
-                break;
-            }
-            team = team->next;
-        }
-    } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(hero->kind, "insan_imparatorlugu")) {
-        while (team != NULL) {
-            if (strcmp(team->unitType->name, "pi") == 0) {
+            if (strcmp(team->unitType->name, "troller") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
             team = team->next;
         }
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "ku") == 0) {
+            if (strcmp(team->unitType->name, "mizrakcilar") == 0) {
+                team->unitType->attack *= (100 + hero->bonusAmount) / 100;
+                break;
+            }
+            team = team->next;
+        }
+    } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(hero->kind, "insan_imparatorlugu") == 0) {
+        while (team != NULL) {
+            if (strcmp(team->unitType->name, "piyadeler") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
             team = team->next;
         }
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "su") == 0) {
+            if (strcmp(team->unitType->name, "kusatma_makineleri") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
             team = team->next;
         }
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "ok") == 0) {
+            if (strcmp(team->unitType->name, "suvariler") == 0) {
+                team->unitType->attack *= (100 + hero->bonusAmount) / 100;
+                break;
+            }
+            team = team->next;
+        }
+        while (team != NULL) {
+            if (strcmp(team->unitType->name, "okcular") == 0) {
                 team->unitType->attack *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -383,7 +382,7 @@ void addDefenceBonus(struct Hero* hero) {
     }
     if (strcmp(firstTwoCharsOfExplanation, "pi") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "pi") == 0) {
+            if (strcmp(team->unitType->name, "piyadeler") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -391,7 +390,7 @@ void addDefenceBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "ku") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "ku") == 0) {
+            if (strcmp(team->unitType->name, "kusatma_makineleri") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -399,7 +398,7 @@ void addDefenceBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "su") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "su") == 0) {
+            if (strcmp(team->unitType->name, "suvariler") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -407,7 +406,7 @@ void addDefenceBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "ok") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "ok") == 0) {
+            if (strcmp(team->unitType->name, "okcular") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -415,7 +414,7 @@ void addDefenceBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "or") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "or") == 0) {
+            if (strcmp(team->unitType->name, "ork_dovusculeri") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -423,7 +422,7 @@ void addDefenceBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "tr") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "tr") == 0) {
+            if (strcmp(team->unitType->name, "troller") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -431,7 +430,7 @@ void addDefenceBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "va") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "va") == 0) {
+            if (strcmp(team->unitType->name, "varg_binicileri") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -439,65 +438,65 @@ void addDefenceBonus(struct Hero* hero) {
         }
     } else if (strcmp(firstTwoCharsOfExplanation, "mi") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "mi") == 0) {
+            if (strcmp(team->unitType->name, "mizrakcilar") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
             team = team->next;
         }
-    } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(hero->kind, "ork_legi")) {
+    } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(hero->kind, "ork_legi") == 0) {
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "or") == 0) {
-                team->unitType->defence *= (100 + hero->bonusAmount) / 100;
-                break;
-            }
-            team = team->next;
-        }
-        while (team != NULL) {
-            if (strcmp(team->unitType->name, "va") == 0) {
+            if (strcmp(team->unitType->name, "ork_dovusculeri") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
             team = team->next;
         }
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "tr") == 0) {
+            if (strcmp(team->unitType->name, "varg_binicileri") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
             team = team->next;
         }
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "mi") == 0) {
-                team->unitType->defence *= (100 + hero->bonusAmount) / 100;
-                break;
-            }
-            team = team->next;
-        }
-    } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(hero->kind, "insan_imparatorlugu")) {
-        while (team != NULL) {
-            if (strcmp(team->unitType->name, "pi") == 0) {
+            if (strcmp(team->unitType->name, "troller") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
             team = team->next;
         }
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "ku") == 0) {
+            if (strcmp(team->unitType->name, "mizrakcilar") == 0) {
+                team->unitType->defence *= (100 + hero->bonusAmount) / 100;
+                break;
+            }
+            team = team->next;
+        }
+    } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(hero->kind, "insan_imparatorlugu") == 0) {
+        while (team != NULL) {
+            if (strcmp(team->unitType->name, "piyadeler") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
             team = team->next;
         }
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "su") == 0) {
+            if (strcmp(team->unitType->name, "kusatma_makineleri") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
             team = team->next;
         }
         while (team != NULL) {
-            if (strcmp(team->unitType->name, "ok") == 0) {
+            if (strcmp(team->unitType->name, "suvariler") == 0) {
+                team->unitType->defence *= (100 + hero->bonusAmount) / 100;
+                break;
+            }
+            team = team->next;
+        }
+        while (team != NULL) {
+            if (strcmp(team->unitType->name, "okcular") == 0) {
                 team->unitType->defence *= (100 + hero->bonusAmount) / 100;
                 break;
             }
@@ -577,7 +576,7 @@ void addCriticalBonus(struct Hero* hero) {
             }
             team = team->next;
         }
-    } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(hero->kind, "ork_legi")) {
+    } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(hero->kind, "ork_legi") == 0) {
         while (team != NULL) {
             if (strcmp(team->unitType->name, "ork_dovusculeri") == 0) {
                 team->unitType->criticalRate *= (100 + hero->bonusAmount) / 100;
@@ -606,7 +605,7 @@ void addCriticalBonus(struct Hero* hero) {
             }
             team = team->next;
         }
-    } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(hero->kind, "insan_imparatorlugu")) {
+    } else if (strcmp(firstTwoCharsOfExplanation, "tu") == 0 && strcmp(hero->kind, "insan_imparatorlugu") == 0) {
         while (team != NULL) {
             if (strcmp(team->unitType->name, "piyadeler") == 0) {
                 team->unitType->criticalRate *= (100 + hero->bonusAmount) / 100;
@@ -649,7 +648,7 @@ void addCreatureBonuses() {
             firstTwoCharactersOfExplanation[2] = '\0';
             if (strcmp(creatures[i]->kind, "insan_imparatorlugu") == 0) {
                 if (strcmp(creatures[i]->affectionType, "saldiri") == 0) {
-                    if (strcmp(firstTwoCharactersOfExplanation, "pi")) {
+                    if (strcmp(firstTwoCharactersOfExplanation, "pi") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "piyadeler") == 0) {
                                 currentTeam->unitType->attack *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -657,7 +656,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "su")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "su") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "suvariler") == 0) {
                                 currentTeam->unitType->attack *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -665,7 +664,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "ok")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "ok") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "okcular") == 0) {
                                 currentTeam->unitType->attack *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -673,7 +672,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "ku")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "ku") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "kusatma_makineleri") == 0) {
                                 currentTeam->unitType->attack *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -683,7 +682,7 @@ void addCreatureBonuses() {
                         }
                     }
                 } else if (strcmp(creatures[i]->affectionType, "savunma") == 0) {
-                    if (strcmp(firstTwoCharactersOfExplanation, "pi")) {
+                    if (strcmp(firstTwoCharactersOfExplanation, "pi") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "piyadeler") == 0) {
                                 currentTeam->unitType->defence *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -691,7 +690,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "su")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "su") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "suvariler") == 0) {
                                 currentTeam->unitType->defence *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -699,7 +698,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "ok")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "ok") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "okcular") == 0) {
                                 currentTeam->unitType->defence *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -707,7 +706,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "ku")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "ku") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "kusatma_makineleri") == 0) {
                                 currentTeam->unitType->defence *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -716,11 +715,8 @@ void addCreatureBonuses() {
                             currentTeam = currentTeam->next;
                         }
                     }
-                } else if (strcmp(creatures[i]->affectionType, "hasar") == 0) {
-
-
-                } else if (strcmp(creatures[i]->affectionType, "kritik") == 0) {
-                    if (strcmp(firstTwoCharactersOfExplanation, "pi")) {
+                } else if (strcmp(creatures[i]->affectionType, "kritik_sans") == 0) {
+                    if (strcmp(firstTwoCharactersOfExplanation, "pi") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "piyadeler") == 0) {
                                 currentTeam->unitType->criticalRate *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -728,7 +724,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "su")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "su") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "suvariler") == 0) {
                                 currentTeam->unitType->criticalRate *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -736,7 +732,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "ok")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "ok") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "okcular") == 0) {
                                 currentTeam->unitType->criticalRate *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -744,7 +740,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "ku")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "ku") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "kusatma_makineleri") == 0) {
                                 currentTeam->unitType->criticalRate *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -756,7 +752,7 @@ void addCreatureBonuses() {
                 }
             } else {
                 if (strcmp(creatures[i]->affectionType, "saldiri") == 0) {
-                    if (strcmp(firstTwoCharactersOfExplanation, "or")) {
+                    if (strcmp(firstTwoCharactersOfExplanation, "or") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "ork_dovusculeri") == 0) {
                                 currentTeam->unitType->attack *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -764,7 +760,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "mi")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "mi") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "mizrakcilar") == 0) {
                                 currentTeam->unitType->attack *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -772,7 +768,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "va")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "va") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "varg_binicileri") == 0) {
                                 currentTeam->unitType->attack *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -780,7 +776,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "tr")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "tr") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "troller") == 0) {
                                 currentTeam->unitType->attack *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -790,7 +786,7 @@ void addCreatureBonuses() {
                         }
                     }
                 } else if (strcmp(creatures[i]->affectionType, "savunma") == 0) {
-                    if (strcmp(firstTwoCharactersOfExplanation, "mi")) {
+                    if (strcmp(firstTwoCharactersOfExplanation, "mi") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "mizrakcilar") == 0) {
                                 currentTeam->unitType->defence *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -798,14 +794,15 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "or")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "or") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "ork_dovusculeri") == 0) {
                                 currentTeam->unitType->defence *= ((100 + creatures[i]->bonusAmount) / 100);
                                 break;
                             }
+                            currentTeam = currentTeam->next ;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "va")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "va") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "varg_binicileri") == 0) {
                                 currentTeam->unitType->defence *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -813,7 +810,7 @@ void addCreatureBonuses() {
                             }
                             currentTeam = currentTeam->next;
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "tr")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "tr") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "troller") == 0) {
                                 currentTeam->unitType->defence *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -822,11 +819,8 @@ void addCreatureBonuses() {
                             currentTeam = currentTeam->next;
                         }
                     }
-                } else if (strcmp(creatures[i]->affectionType, "hasar") == 0) {
-
-
-                } else if (strcmp(creatures[i]->affectionType, "kritik") == 0) {
-                    if (strcmp(firstTwoCharactersOfExplanation, "or")) {
+                }else if (strcmp(creatures[i]->affectionType, "kritik_sans") == 0) {
+                    if (strcmp(firstTwoCharactersOfExplanation, "or") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "ork_dovusculeri") == 0) {
                                 currentTeam->unitType->criticalRate *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -835,7 +829,7 @@ void addCreatureBonuses() {
                             currentTeam = currentTeam->next;
 
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "mi")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "mi") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "mizrakcilar") == 0) {
                                 currentTeam->unitType->criticalRate *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -844,7 +838,7 @@ void addCreatureBonuses() {
                             currentTeam = currentTeam->next;
 
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "tr")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "tr") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "troller") == 0) {
                                 currentTeam->unitType->criticalRate *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -853,7 +847,7 @@ void addCreatureBonuses() {
                             currentTeam = currentTeam->next;
 
                         }
-                    } else if (strcmp(firstTwoCharactersOfExplanation, "va")) {
+                    } else if (strcmp(firstTwoCharactersOfExplanation, "va") == 0) {
                         while (currentTeam != NULL) {
                             if (strcmp(currentTeam->unitType->name, "varg_binicileri") == 0) {
                                 currentTeam->unitType->criticalRate *= ((100 + creatures[i]->bonusAmount) / 100);
@@ -1075,6 +1069,3 @@ bool isOrcsHaveActiveTeam() {
     }
     return false;
 }
-
-
-
